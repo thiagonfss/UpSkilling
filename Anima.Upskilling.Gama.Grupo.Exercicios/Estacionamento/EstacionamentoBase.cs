@@ -2,24 +2,16 @@
 
 public class EstacionamentoBase
 {
-    private bool _sair;
+    const int _maxtentativas = 4;
+    private int _tentativas = 1;
+    private bool _sair = false;
+    
 
     public void IniciarMenu()
     {
-        Console.WriteLine("Bem-vindo ao sistema de gerenciamento de clientes e veículos!");
-        _sair = false;
-
         while (!_sair)
         {
-            Console.WriteLine("\nSelecione uma opção:");
-            Console.WriteLine("\t1 - Cadastrar Cliente");
-            Console.WriteLine("\t2 - Cadastrar Veículo");
-            Console.WriteLine("\t3 - Listar Clientes e Veículos");
-            Console.WriteLine("\t4 - Cadastrar Movimentação");
-            Console.WriteLine("\t0 - Encerrar");
-
-            Console.Write("Opção: ");
-            string opcao = Console.ReadLine();
+            string opcao = ApresentarOpcoes();
 
             switch (opcao)
             {
@@ -44,10 +36,34 @@ public class EstacionamentoBase
                     break;
 
                 default:
-                    Console.WriteLine("Opção inválida. Selecione uma opção válida.");
+                    ValidaTentativas(opcao);
                     break;
             }
         }
+    }
+
+    private void Apresentacao()
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Bem-vindo ao GamaParking!");
+        Console.ResetColor();
+    }
+
+    private string ApresentarOpcoes()
+    {
+        Apresentacao();
+
+        Console.WriteLine("\nSelecione uma opção:");
+        Console.WriteLine("\t1 - Cadastrar Cliente");
+        Console.WriteLine("\t2 - Cadastrar Veículo");
+        Console.WriteLine("\t3 - Listar Clientes e Veículos");
+        Console.WriteLine("\t4 - Cadastrar Movimentação");
+        Console.WriteLine("\t0 - Encerrar");
+
+        Console.Write("Opção: ");
+        string opcaoConsole = Console.ReadLine();
+
+        return opcaoConsole;
     }
 
     private void CadastrarCliente()
@@ -74,5 +90,25 @@ public class EstacionamentoBase
     {
         Console.WriteLine("Opção selecionada: Encerrar");
         _sair = true;
+    }
+
+    private void ValidaTentativas(string opcao)
+    {
+        if (_tentativas == _maxtentativas)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\nNúmero de tentativas excedido. Encerrando ...");
+            _sair = true;
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"Opção '{opcao.Trim()}' inválida! Selecione uma opção válida.");
+            _tentativas++;
+        }
+
+        Console.ResetColor();
+        Thread.Sleep(2500);
+        Console.Clear();
     }
 }
