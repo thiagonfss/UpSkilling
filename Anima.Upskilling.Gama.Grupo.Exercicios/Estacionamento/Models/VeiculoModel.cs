@@ -2,12 +2,22 @@
 
 public class VeiculoModel
 {
-    private int _id;
+    private static int _id = 1;
 
-    public int Id { get; private set; }
+    // Veiculo
+    public int Id { get; private set; } = _id;
     public string Placa { get; set; }
+    public string Cor { get; set; }
     public string Fabricante { get; set; }
     public string Modelo { get; set; }
-    public ClienteModel Cliente { get; set; }
-    public TicketModel Ticket { get; set; }
+    public DateTime DataCadastro { get; set; } = DateTime.Now;
+
+    // Cliente
+    public int IdCliente { get; set; }
+    public string NomeCliente { get; set; }
+
+    public VeiculoModel()
+    {
+        _id++;
+    }
 }
