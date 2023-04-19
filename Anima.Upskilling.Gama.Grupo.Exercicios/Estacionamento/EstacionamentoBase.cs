@@ -1,6 +1,7 @@
 ﻿using ConsoleTables;
 using Estacionamento.Extensions;
 using Estacionamento.Models;
+using Estacionamento.Repository;
 using Estacionamento.StaticHelpers;
 
 namespace Estacionamento;
@@ -13,27 +14,20 @@ public class EstacionamentoBase
 
     private double _valorPorMinuto = 0;
 
-    private List<ClienteModel> Clientes;
-    private List<VeiculoModel> Veiculos;
-    private List<TicketModel> Tickets;
     private MovimentacaModel Status;
+
+    //Repositories
+    private readonly ClienteRepository _clienteRepository = new ClienteRepository();
+    private readonly VeiculoRepository _veiculoRepository = new VeiculoRepository();
+    private readonly TicketRepository _ticketRepository = new TicketRepository();
+
 
     public EstacionamentoBase(double valorPorMinuto, int totalVagas)
     {
         _valorPorMinuto = valorPorMinuto;
 
-        // Dados Dinamicos - prod.
-        Clientes = new List<ClienteModel>();
-        Veiculos = new List<VeiculoModel>();
-        Tickets = new List<TicketModel>();
-
-        // Dados Staticos - desenv.
-        //Clientes = ClienteModelStaticList.Get();
-        //Veiculos = VeiculoModelStaticList.Get(Clientes, totalVagas);
-        //Tickets = TicketModelStaticList.Get(Clientes, Veiculos, _valorPorMinuto);
-
         // Status
-        Status = new MovimentacaModel(Tickets, valorPorMinuto, totalVagas);
+        Status = new MovimentacaModel(_ticketRepository.RetornaTodosTickets(), valorPorMinuto, totalVagas);
     }
 
     public EstacionamentoBase()
@@ -149,8 +143,9 @@ public class EstacionamentoBase
             Console.Write("\tTelefone: ");
             cliente.NumeroCelular = Console.ReadLine();
             cliente.NumeroCelular = cliente.NumeroCelular.ToNumberPhoneNormalized();
+            cliente.DataCadastro = DateTime.Now;
 
-            Clientes.Add(cliente);
+            _clienteRepository.SalvarCliente(cliente);
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine($"\t*Cliente '{cliente.NomeCompleto}' cadastrado com sucesso!\n");
@@ -182,7 +177,8 @@ public class EstacionamentoBase
     {
         Apresentacao();
         Console.WriteLine("Opção selecionada: Listar Clientes");
-        GerarTabelaConsole(Clientes);
+
+        GerarTabelaConsole(_clienteRepository.RetornaTodosClientes());
         RetornarMenu();
     }
 
@@ -224,7 +220,9 @@ public class EstacionamentoBase
             string placa = Console.ReadLine();
             veiculo.Placa = placa.ToUpper();
 
-            Veiculos.Add(veiculo);
+            veiculo.DataCadastro = DateTime.Now;
+
+            _veiculoRepository.SalvarVeiculo(veiculo);
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine($"\t*Veículo {veiculo.Fabricante} {veiculo.Modelo}, Placa '{veiculo.Placa}' foi cadastrado com sucesso!\n");
@@ -257,7 +255,7 @@ public class EstacionamentoBase
     {
         Apresentacao();
         Console.WriteLine("Opção selecionada: Listar Veículos");
-        GerarTabelaConsole(Veiculos);
+        GerarTabelaConsole(_veiculoRepository.RetornaTodosVeiculos());
         RetornarMenu();
     }
 
@@ -304,7 +302,7 @@ public class EstacionamentoBase
                 Thread.Sleep(1500);
                 break;
             }
-
+            ticket.Entrada = DateTime.Now;
             ticket.IdVeiculo = cliente.Id;
             ticket.DescricaoVeiculo = $"Modelo: {veiculo.Fabricante} {veiculo.Modelo}, Cor: {veiculo.Cor}, Placa: {veiculo.Placa}";
 
@@ -323,7 +321,7 @@ public class EstacionamentoBase
             {
                 case "S":
                     ticket.IniciarTcket(_valorPorMinuto);
-                    Tickets.Add(ticket);
+                    _ticketRepository.SalvarTicket(ticket);
                     break;
 
                 case "N":
@@ -367,7 +365,7 @@ public class EstacionamentoBase
     {
         Apresentacao();
         Console.WriteLine("Opção selecionada: Listar Tickets");
-        GerarTabelaConsole(Tickets);
+        GerarTabelaConsole(_ticketRepository.RetornaTodosTickets());
         RetornarMenu();
     }
 
@@ -384,8 +382,8 @@ public class EstacionamentoBase
             Console.WriteLine("Opção selecionada: Fechar Tiket");
 
             TicketModel ticket = ValidarIdTicketConsole();
-            VeiculoModel veiculo = Veiculos.Single(x => x.Id == ticket.IdVeiculo);
-            ClienteModel cliente = Clientes.Single(x => x.Id == ticket.IdCliente);
+            VeiculoModel veiculo = _veiculoRepository.BuscarVeiculoPorId((int)ticket.IdVeiculo);
+            ClienteModel cliente = _clienteRepository.BuscarClientePorId(ticket.IdCliente);
 
             Console.ForegroundColor = ConsoleColor.Green;
             var status = ticket.Ativo ? "ABERTO" : "FECHADO";
@@ -415,7 +413,7 @@ public class EstacionamentoBase
             switch (confirmaFechar.ToUpper())
             {
                 case "S":
-                    Tickets.ForEach(t => 
+                    _ticketRepository.RetornaTodosTickets().ForEach(t => 
                     {
                         if (t.Id == ticket.Id)
                         {
@@ -450,7 +448,7 @@ public class EstacionamentoBase
     {
         int id = ValidarIdConsole("Cliente");
 
-        ClienteModel cliente = Clientes.Find(cliente => cliente.Id == id);
+        ClienteModel cliente = _clienteRepository.BuscarClientePorId(id);
 
         if (cliente is null || cliente.Id == 0)
         {
@@ -468,14 +466,14 @@ public class EstacionamentoBase
     {
         int id = 0;
 
-        var veiculos = Veiculos.FindAll(veiculo => veiculo.IdCliente == idCliente);
+        var veiculos = _veiculoRepository.BuscarVeiculosPorCliente(idCliente);
 
         if (veiculos.Count > 0)
         {
             GerarTabelaConsole(veiculos);
             id = ValidarIdConsole("Veículo");
 
-            VeiculoModel veiculo = Veiculos.Find(cliente => cliente.Id == id);
+            VeiculoModel veiculo = _veiculoRepository.BuscarVeiculoPorId(id);
 
             if (veiculo is null || veiculo.Id == 0)
             {
@@ -495,7 +493,7 @@ public class EstacionamentoBase
     {
         int id = ValidarIdConsole("Ticket");
 
-        TicketModel ticket = Tickets.Find(ticket => ticket.Id == id);
+        TicketModel ticket = _ticketRepository.BuscarTicketPorId(id);
 
         if (ticket is null || ticket.Id == 0)
         {

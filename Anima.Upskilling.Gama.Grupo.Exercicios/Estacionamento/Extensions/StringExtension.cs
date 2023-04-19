@@ -15,7 +15,7 @@ public static class StringExtension
         return textInfo.ToTitleCase(text.Trim());
     }
 
-    public static string ToCpfNormalized(this string text, bool pontuacao = true) 
+    public static string ToCpfNormalized(this string text, bool pontuacao = true)
     {
         text = text.Trim();
         string newText = String.Join("", text.Where(Char.IsDigit)).PadRight(11, '0');

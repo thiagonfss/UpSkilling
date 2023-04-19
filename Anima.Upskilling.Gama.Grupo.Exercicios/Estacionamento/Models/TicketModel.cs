@@ -2,14 +2,12 @@
 
 public class TicketModel
 {
-    private static int _id = 1;
-
     // Ticket
-    public int Id { get; private set; } = _id;
+    public int Id { get;  set; }
     public bool Ativo { get; private set; } = false;
     private double _valorPorMinuto { get; set; } = 0;
     public string ValorPorMinuto { get => $"R$ {this._valorPorMinuto:F2}"; }
-    public DateTime Entrada { get; set; } = DateTime.Now;
+    public DateTime Entrada { get; set; }
     public Nullable<DateTime> Saida { get; set; }
 
     // Detalhes Ticket
@@ -25,11 +23,6 @@ public class TicketModel
     public string DescricaoVeiculo { get; set; }
 
     private Nullable<int> _tempoEstacionado { get => AtualizaTempoEstacionado(); }
-
-    public TicketModel()
-    {
-        _id++;
-    }
 
     public void IniciarTcket(double cobranca)
     {
