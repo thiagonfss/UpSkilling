@@ -1,7 +1,13 @@
 ﻿using ConsoleTables;
 using Estacionamento.Extensions;
 using Estacionamento.Models;
+using Estacionamento.Services;
+using Estacionamento.Services.Interfaces;
 using Estacionamento.StaticHelpers;
+using System.ComponentModel;
+using System.Numerics;
+using System.Reflection;
+using System.Runtime.ConstrainedExecution;
 
 namespace Estacionamento;
 
@@ -17,6 +23,10 @@ public class EstacionamentoBase
     private List<VeiculoModel> Veiculos;
     private List<TicketModel> Tickets;
     private MovimentacaModel Status;
+
+    private IClienteService _clienteService;
+    private IVeiculoService _veiculoService;
+    private ITicketService _ticketService;
 
     public EstacionamentoBase(double valorPorMinuto, int totalVagas)
     {
@@ -34,6 +44,13 @@ public class EstacionamentoBase
 
         // Status
         Status = new MovimentacaModel(Tickets, valorPorMinuto, totalVagas);
+
+
+        // Services
+        _clienteService = new ClienteService();
+        _veiculoService = new VeiculoService();
+        _ticketService = new TicketService();
+
     }
 
     public EstacionamentoBase()
@@ -122,7 +139,7 @@ public class EstacionamentoBase
         return opcaoConsole;
     }
 
-    private void CadastrarCliente()
+    private async void CadastrarCliente()
     {
         bool sairCadastroCliente = false;
         const int maxTotalTentativasCadastroCliente = 3;
@@ -139,22 +156,16 @@ public class EstacionamentoBase
             ClienteModel cliente = new();
 
             Console.Write("\tNome: ");
-            string nome = Console.ReadLine();
-            cliente.NomeCompleto = nome.ToTittleCase();
+            cliente.NomeCompleto = Console.ReadLine();
 
             Console.Write("\tCPF: ");
             cliente.Cpf = Console.ReadLine();
-            cliente.Cpf = cliente.Cpf.ToCpfNormalized();
 
             Console.Write("\tTelefone: ");
             cliente.NumeroCelular = Console.ReadLine();
-            cliente.NumeroCelular = cliente.NumeroCelular.ToNumberPhoneNormalized();
 
-            Clientes.Add(cliente);
-
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"\t*Cliente '{cliente.NomeCompleto}' cadastrado com sucesso!\n");
-            Console.ResetColor();
+            //Clientes.Add(cliente);
+            await _clienteService.CadastrarCliente(cliente, true);
 
             Console.Write("Deseja cadastrar outro cliente? [S / N]: ");
             string novoCadastro = Console.ReadLine();
@@ -178,15 +189,15 @@ public class EstacionamentoBase
         IniciarMenu();
     }
 
-    private void ListarClientes()
+    private async void ListarClientes()
     {
         Apresentacao();
         Console.WriteLine("Opção selecionada: Listar Clientes");
-        GerarTabelaConsole(Clientes);
+        GerarTabelaConsole(await _clienteService.GetClientes());
         RetornarMenu();
     }
 
-    private void CadastrarVeiculo()
+    private async void CadastrarVeiculo()
     {
         bool sairCadastroVeiculo = false;
         const int maxTotalTentativasCadastroVeiculo = 3;
@@ -199,7 +210,7 @@ public class EstacionamentoBase
 
             VeiculoModel veiculo= new();
 
-            ClienteModel cliente = ValidarIdClienteConsole();
+            ClienteModel cliente = await ValidarIdClienteConsole();
             veiculo.IdCliente = cliente.Id;
             veiculo.NomeCliente = cliente.NomeCompleto;
             
@@ -209,26 +220,18 @@ public class EstacionamentoBase
             Console.ResetColor();
 
             Console.Write("\tMarca/Fabricante: ");
-            string fabricante = Console.ReadLine();
-            veiculo.Fabricante = fabricante.ToTittleCase();
+            veiculo.Fabricante = Console.ReadLine();
 
             Console.Write("\tModelo: ");
-            string modelo = Console.ReadLine();
-            veiculo.Modelo = modelo.ToTittleCase();
+            veiculo.Modelo = Console.ReadLine();
 
             Console.Write("\tCor: ");
-            string cor = Console.ReadLine();
-            veiculo.Cor = cor.ToTittleCase();
+            veiculo.Cor = Console.ReadLine();
 
             Console.Write("\tPlaca: ");
-            string placa = Console.ReadLine();
-            veiculo.Placa = placa.ToUpper();
+            veiculo.Placa = Console.ReadLine();
 
-            Veiculos.Add(veiculo);
-
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"\t*Veículo {veiculo.Fabricante} {veiculo.Modelo}, Placa '{veiculo.Placa}' foi cadastrado com sucesso!\n");
-            Console.ResetColor();
+            await _veiculoService.CadastrarVeiculo(veiculo);
 
             Console.Write("Deseja cadastrar outro veiculo? [S / N]: ");
             string novoCadastro = Console.ReadLine();
@@ -253,15 +256,15 @@ public class EstacionamentoBase
         IniciarMenu();
     }
 
-    private void ListarVeiculos()
+    private async void ListarVeiculos()
     {
         Apresentacao();
         Console.WriteLine("Opção selecionada: Listar Veículos");
-        GerarTabelaConsole(Veiculos);
+        GerarTabelaConsole(await _veiculoService.GetVeiculos());
         RetornarMenu();
     }
 
-    private void CadastrarTicket()
+    private async void CadastrarTicket()
     {
         if (!Status.TemVagaDisponivel)
         {
@@ -286,7 +289,7 @@ public class EstacionamentoBase
 
             TicketModel ticket = new();
 
-            ClienteModel cliente = ValidarIdClienteConsole();
+            ClienteModel cliente = await ValidarIdClienteConsole();
             ticket.IdCliente = cliente.Id;
             ticket.NomeCliente = cliente.NomeCompleto;
 
@@ -295,7 +298,7 @@ public class EstacionamentoBase
             Thread.Sleep(1500);
             Console.ResetColor();
 
-            VeiculoModel veiculo = ValidarIdVeiculoConsole(cliente.Id);
+            VeiculoModel veiculo = await ValidarIdVeiculoConsole(cliente.Id);
             if (veiculo == null)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -323,7 +326,7 @@ public class EstacionamentoBase
             {
                 case "S":
                     ticket.IniciarTcket(_valorPorMinuto);
-                    Tickets.Add(ticket);
+                    await _ticketService.CadastrarTicket(ticket);
                     break;
 
                 case "N":
@@ -335,10 +338,6 @@ public class EstacionamentoBase
                     sairCadastroTicket = OpcaoInvalida(totalTentativasConfirmarCadastroTicket, maxTotalTentativasConfirmarCadastroTicket);
                     break;
             }
-
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"\t*Ticket {ticket.Id:D4} foi cadastrado com sucesso!\n");
-            Console.ResetColor();
 
             Console.Write("Deseja cadastrar outro ticket? [S / N]: ");
             string novoCadastro = Console.ReadLine();
@@ -363,11 +362,11 @@ public class EstacionamentoBase
         IniciarMenu();
     }
 
-    private void ListarTickets()
+    private async void ListarTickets()
     {
         Apresentacao();
         Console.WriteLine("Opção selecionada: Listar Tickets");
-        GerarTabelaConsole(Tickets);
+        GerarTabelaConsole(await _ticketService.GetTickets());
         RetornarMenu();
     }
 
@@ -446,11 +445,11 @@ public class EstacionamentoBase
         IniciarMenu();
     }
 
-    private ClienteModel ValidarIdClienteConsole()
+    private async Task<ClienteModel> ValidarIdClienteConsole()
     {
         int id = ValidarIdConsole("Cliente");
 
-        ClienteModel cliente = Clientes.Find(cliente => cliente.Id == id);
+        ClienteModel cliente = await _clienteService.GetCliente(id); // Clientes.Find(cliente => cliente.Id == id);
 
         if (cliente is null || cliente.Id == 0)
         {
@@ -464,18 +463,18 @@ public class EstacionamentoBase
         return cliente;
     }
 
-    private VeiculoModel ValidarIdVeiculoConsole(int idCliente)
+    private async Task<VeiculoModel> ValidarIdVeiculoConsole(int idCliente)
     {
         int id = 0;
 
-        var veiculos = Veiculos.FindAll(veiculo => veiculo.IdCliente == idCliente);
+        List<VeiculoModel> veiculos = (await _veiculoService.GetVeiculos()).FindAll(veiculo => veiculo.IdCliente == idCliente);
 
         if (veiculos.Count > 0)
         {
             GerarTabelaConsole(veiculos);
             id = ValidarIdConsole("Veículo");
 
-            VeiculoModel veiculo = Veiculos.Find(cliente => cliente.Id == id);
+            VeiculoModel veiculo = veiculos.Find(cliente => cliente.Id == id);
 
             if (veiculo is null || veiculo.Id == 0)
             {
@@ -484,10 +483,8 @@ public class EstacionamentoBase
                 Thread.Sleep(2500);
                 Console.ResetColor();
             }
-
             return veiculo;
         }
-
         return null;
     }
 
@@ -564,8 +561,9 @@ public class EstacionamentoBase
         Console.Clear();
     }
 
-    private void GerarTabelaConsole<T>(List<T> items)
+    private void GerarTabelaConsole<T>(List<T> items, int limit = 10)
     {
+        items = items.Take(limit).ToList();
         ConsoleTable.From<T>(items).Write(Format.Alternative);
     }
 
