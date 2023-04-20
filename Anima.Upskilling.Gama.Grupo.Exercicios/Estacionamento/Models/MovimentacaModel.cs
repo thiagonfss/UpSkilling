@@ -1,10 +1,13 @@
-﻿namespace Estacionamento.Models;
+﻿using Estacionamento.Services.Interfaces;
 
-public class MovimentacaModel
+namespace Estacionamento.Models;
+
+public partial class MovimentacaModel
 {
-    readonly IEnumerable<TicketModel> _tickets;
-    readonly double _valorPorMinuto;
-    readonly int _totalVagas = 0;
+    private readonly ITicketService _service;
+    private IEnumerable<TicketModel> _tickets;
+    private double _valorPorMinuto;
+    private int _totalVagas = 0;
 
     public string ValorPorMinuto 
     { 
@@ -16,7 +19,7 @@ public class MovimentacaModel
         get
         {
             int vagas = _totalVagas - _tickets.Count(tickt => tickt.Ativo);
-            string text = vagas > 1 ? "Vagas" : "Vaga";
+            string text = vagas == 1 ? "Vaga" : "Vagas";
             return $"{vagas} {text}";
         }
     }
@@ -26,7 +29,7 @@ public class MovimentacaModel
         get
         {
             int veiculos = _tickets.Count(tickt => tickt.Ativo);
-            string text = veiculos == 1 ? "Veículos" : "Veículo";
+            string text = veiculos == 1 ? "Veículo" : "Veículos";
             return $"{veiculos} {text}";
         }
     }
@@ -36,10 +39,11 @@ public class MovimentacaModel
         get => _totalVagas - _tickets.Count(tickt => tickt.Ativo) > 0;
     }
 
-    public MovimentacaModel(List<TicketModel> tickts, double valorPorMinuto, int totalVagas)
+    public MovimentacaModel(ITicketService service, double valorPorMinuto, int totalVagas)
 	{
-        _tickets = tickts;
+        _service = service;
+        _tickets = service.GetTickets().Result.AsEnumerable();
         _valorPorMinuto = valorPorMinuto;
-        _totalVagas = totalVagas;
+        _totalVagas = totalVagas;    
     }
 }

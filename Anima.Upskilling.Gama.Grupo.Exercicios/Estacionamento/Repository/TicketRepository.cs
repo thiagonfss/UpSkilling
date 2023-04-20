@@ -105,8 +105,8 @@ namespace Estacionamento.Repository
                 using (IDbConnection conexao = GetConnection())
                 {
                     string sql = @"
-                                    INSERT INTO Tickets (Ativo, ValorPorMinuto, Entrada, Saida, TempoEstacionado, ValorTicket, DataCadastro, IdCliente, NomeCliente, IdVeiculo, DescricaoVeiculo) 
-                                    VALUES (@Ativo, @ValorPorMinuto, @Entrada, @Saida, @TempoEstacionado, @ValorTicket, @DataCadastro, @IdCliente, @NomeCliente, @IdVeiculo, @DescricaoVeiculo);";
+                                    INSERT INTO Tickets (Ativo, ValorPorMinuto, Entrada, Saida, TempoEstacionado, ValorTicket, IdCliente, NomeCliente, IdVeiculo, DescricaoVeiculo) 
+                                    VALUES (@Ativo, @ValorPorMinuto, @Entrada, @Saida, @TempoEstacionado, @ValorTicket, @IdCliente, @NomeCliente, @IdVeiculo, @DescricaoVeiculo);";
 
                     return await conexao.ExecuteAsync(sql, ticket) > 0;
                 }

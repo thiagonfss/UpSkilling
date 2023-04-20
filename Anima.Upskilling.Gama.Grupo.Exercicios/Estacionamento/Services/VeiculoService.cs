@@ -20,6 +20,11 @@ namespace Estacionamento.Services;
             return (await _veiculoRepository.GetVeiculos()).ToList();
         }
 
+        public async Task<VeiculoModel> GetVeiculo(int id)
+        {
+            return await _veiculoRepository.GetVeiculo(id);
+        }
+
         public async Task<bool> CadastrarVeiculo(VeiculoModel veiculo, bool msgStatus = true)
         {
             VeiculoModel veiculoNormalizado = new VeiculoModel()

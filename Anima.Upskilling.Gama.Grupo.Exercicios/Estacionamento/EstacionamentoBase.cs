@@ -3,11 +3,6 @@ using Estacionamento.Extensions;
 using Estacionamento.Models;
 using Estacionamento.Services;
 using Estacionamento.Services.Interfaces;
-using Estacionamento.StaticHelpers;
-using System.ComponentModel;
-using System.Numerics;
-using System.Reflection;
-using System.Runtime.ConstrainedExecution;
 
 namespace Estacionamento;
 
@@ -16,41 +11,24 @@ public class EstacionamentoBase
     const int _maxtentativas = 4;
     private int _tentativas = 1;
     private bool _sair = false;
-
     private double _valorPorMinuto = 0;
 
-    private List<ClienteModel> Clientes;
-    private List<VeiculoModel> Veiculos;
-    private List<TicketModel> Tickets;
     private MovimentacaModel Status;
-
     private IClienteService _clienteService;
     private IVeiculoService _veiculoService;
     private ITicketService _ticketService;
 
     public EstacionamentoBase(double valorPorMinuto, int totalVagas)
     {
-        _valorPorMinuto = valorPorMinuto;
-
-        // Dados Dinamicos - prod.
-        Clientes = new List<ClienteModel>();
-        Veiculos = new List<VeiculoModel>();
-        Tickets = new List<TicketModel>();
-
-        // Dados Staticos - desenv.
-        //Clientes = ClienteModelStaticList.Get();
-        //Veiculos = VeiculoModelStaticList.Get(Clientes, totalVagas);
-        //Tickets = TicketModelStaticList.Get(Clientes, Veiculos, _valorPorMinuto);
-
-        // Status
-        Status = new MovimentacaModel(Tickets, valorPorMinuto, totalVagas);
-
-
         // Services
         _clienteService = new ClienteService();
         _veiculoService = new VeiculoService();
         _ticketService = new TicketService();
 
+        _valorPorMinuto = valorPorMinuto;
+
+        // Status
+        Status = new MovimentacaModel(_ticketService, valorPorMinuto, totalVagas);
     }
 
     public EstacionamentoBase()
@@ -308,7 +286,7 @@ public class EstacionamentoBase
                 break;
             }
 
-            ticket.IdVeiculo = cliente.Id;
+            ticket.IdVeiculo = veiculo.Id;
             ticket.DescricaoVeiculo = $"Modelo: {veiculo.Fabricante} {veiculo.Modelo}, Cor: {veiculo.Cor}, Placa: {veiculo.Placa}";
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -327,6 +305,7 @@ public class EstacionamentoBase
                 case "S":
                     ticket.IniciarTcket(_valorPorMinuto);
                     await _ticketService.CadastrarTicket(ticket);
+                    Status.Atualizar();
                     break;
 
                 case "N":
@@ -370,7 +349,7 @@ public class EstacionamentoBase
         RetornarMenu();
     }
 
-    private void FecharTicket()
+    private async void FecharTicket()
     {
         bool sairFecharTicket = false;
         const int maxTotalTentativasConfirmarFecharTicket = 3;
@@ -382,9 +361,9 @@ public class EstacionamentoBase
             Apresentacao();
             Console.WriteLine("Opção selecionada: Fechar Tiket");
 
-            TicketModel ticket = ValidarIdTicketConsole();
-            VeiculoModel veiculo = Veiculos.Single(x => x.Id == ticket.IdVeiculo);
-            ClienteModel cliente = Clientes.Single(x => x.Id == ticket.IdCliente);
+            TicketModel ticket = await ValidarIdTicketConsole();
+            //VeiculoModel veiculo = await _veiculoService.GetVeiculo(ticket.IdVeiculo.Value);
+            ClienteModel cliente = await _clienteService.GetCliente(ticket.IdCliente);
 
             Console.ForegroundColor = ConsoleColor.Green;
             var status = ticket.Ativo ? "ABERTO" : "FECHADO";
@@ -414,17 +393,10 @@ public class EstacionamentoBase
             switch (confirmaFechar.ToUpper())
             {
                 case "S":
-                    Tickets.ForEach(t => 
-                    {
-                        if (t.Id == ticket.Id)
-                        {
-                            ticket.FecharTcket();
-                        }
-                    });
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine($"\t*Fechar Ticket {ticket.Id:D4} Operação concluida sucesso!\n");
-                    Console.ResetColor();
-                    Thread.Sleep(1500);
+                    ticket.FecharTcket();
+                    await _ticketService.AtualizarTicket(ticket);
+                    Status.Atualizar();
+                    sairFecharTicket = true;
                     break;
 
                 case "N":
@@ -488,11 +460,11 @@ public class EstacionamentoBase
         return null;
     }
 
-    private TicketModel ValidarIdTicketConsole()
+    private async Task<TicketModel> ValidarIdTicketConsole()
     {
         int id = ValidarIdConsole("Ticket");
 
-        TicketModel ticket = Tickets.Find(ticket => ticket.Id == id);
+        TicketModel ticket = (await _ticketService.GetTickets()).Find(ticket => ticket.Id == id);
 
         if (ticket is null || ticket.Id == 0)
         {
