@@ -8,13 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsUPSKILLINGGAMA.Models;
+using WindowsFormsUPSKILLINGGAMA.Services;
+using WindowsFormsUPSKILLINGGAMA.Services.Interfaces;
 
 namespace WindowsFormsUPSKILLINGGAMA
 {
     public partial class frm_clientes : Form
     {
+        private IBaseService<ClienteModel> _clienteService;
+
         public frm_clientes()
         {
+            _clienteService = new ClienteService<ClienteModel>();
             InitializeComponent();
         }
 
@@ -32,11 +37,10 @@ namespace WindowsFormsUPSKILLINGGAMA
         {
             ClienteModel cliente = new ClienteModel();
 
-            cliente.Id = 0; // _clienteService.GetNewId();
             cliente.Nome = this.txt_nome.Text;
             cliente.Telefone = this.txt_telefone.Text;
 
-            // _clienteService.Cadastrar(cliente);
+            _clienteService.Cadastrar(cliente);
         }
     }
 }

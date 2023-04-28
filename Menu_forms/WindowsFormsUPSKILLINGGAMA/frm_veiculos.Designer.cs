@@ -104,7 +104,6 @@
             this.lbl_modelo.Size = new System.Drawing.Size(53, 16);
             this.lbl_modelo.TabIndex = 12;
             this.lbl_modelo.Text = "Modelo";
-            this.lbl_modelo.Click += new System.EventHandler(this.lbl_marca_Click);
             // 
             // txt_modelo
             // 
@@ -161,7 +160,6 @@
             this.lbl_tpo_servico.Size = new System.Drawing.Size(101, 16);
             this.lbl_tpo_servico.TabIndex = 21;
             this.lbl_tpo_servico.Text = "Tipo de serviço";
-            this.lbl_tpo_servico.Click += new System.EventHandler(this.label1_Click);
             // 
             // cb_id_cliente
             // 
