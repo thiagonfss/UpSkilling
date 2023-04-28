@@ -15,6 +15,7 @@ namespace WindowsFormsUPSKILLINGGAMA
         public frm_menu()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void btn_cdt_clientes_Click(object sender, EventArgs e)
