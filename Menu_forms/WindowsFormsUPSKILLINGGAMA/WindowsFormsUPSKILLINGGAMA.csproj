@@ -125,6 +125,7 @@
     <Compile Include="Models\VeiculoModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ClienteService.cs" />
     <Compile Include="Services\Interfaces\IBaseService.cs" />
     <EmbeddedResource Include="frm_hist_vendas.resx">
       <DependentUpon>frm_hist_vendas.cs</DependentUpon>
