@@ -10,24 +10,14 @@ using System.Windows.Forms;
 
 namespace WindowsFormsUPSKILLINGGAMA
 {
-    public partial class frm_veiculos : Form
+    public partial class frm_hist_vendas : Form
     {
-        public frm_veiculos()
+        public frm_hist_vendas()
         {
             InitializeComponent();
         }
 
         private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_marca_Click(object sender, EventArgs e)
         {
 
         }

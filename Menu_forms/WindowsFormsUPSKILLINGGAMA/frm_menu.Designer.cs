@@ -35,6 +35,7 @@
             this.veículosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_cdt_clientes = new System.Windows.Forms.Button();
             this.btn_cdt_veiculos = new System.Windows.Forms.Button();
+            this.btn_hist_venda = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pic_menu_estac)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -70,14 +71,14 @@
             // clientesToolStripMenuItem
             // 
             this.clientesToolStripMenuItem.Name = "clientesToolStripMenuItem";
-            this.clientesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clientesToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.clientesToolStripMenuItem.Text = "Clientes";
             this.clientesToolStripMenuItem.Click += new System.EventHandler(this.clientesToolStripMenuItem_Click);
             // 
             // veículosToolStripMenuItem
             // 
             this.veículosToolStripMenuItem.Name = "veículosToolStripMenuItem";
-            this.veículosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.veículosToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.veículosToolStripMenuItem.Text = "Veículos";
             this.veículosToolStripMenuItem.Click += new System.EventHandler(this.veiculosToolStripMenuItem_Click);
             // 
@@ -105,11 +106,24 @@
             this.btn_cdt_veiculos.UseVisualStyleBackColor = false;
             this.btn_cdt_veiculos.Click += new System.EventHandler(this.btn_cdt_veiculos_Click);
             // 
+            // btn_hist_venda
+            // 
+            this.btn_hist_venda.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.btn_hist_venda.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btn_hist_venda.Location = new System.Drawing.Point(194, 42);
+            this.btn_hist_venda.Name = "btn_hist_venda";
+            this.btn_hist_venda.Size = new System.Drawing.Size(75, 55);
+            this.btn_hist_venda.TabIndex = 4;
+            this.btn_hist_venda.Text = "Histórico de venda";
+            this.btn_hist_venda.UseVisualStyleBackColor = false;
+            this.btn_hist_venda.Click += new System.EventHandler(this.btn_hist_vendas_Click);
+            // 
             // frm_menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(492, 300);
+            this.Controls.Add(this.btn_hist_venda);
             this.Controls.Add(this.btn_cdt_veiculos);
             this.Controls.Add(this.btn_cdt_clientes);
             this.Controls.Add(this.pic_menu_estac);
@@ -134,6 +148,7 @@
         private System.Windows.Forms.ToolStripMenuItem veículosToolStripMenuItem;
         private System.Windows.Forms.Button btn_cdt_clientes;
         private System.Windows.Forms.Button btn_cdt_veiculos;
+        private System.Windows.Forms.Button btn_hist_venda;
     }
 }
 
