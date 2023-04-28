@@ -94,6 +94,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frm_hist_vendas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_hist_vendas.Designer.cs">
+      <DependentUpon>frm_hist_vendas.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm_menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frm_hist_vendas.resx">
+      <DependentUpon>frm_hist_vendas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frm_menu.resx">
       <DependentUpon>frm_menu.cs</DependentUpon>
     </EmbeddedResource>

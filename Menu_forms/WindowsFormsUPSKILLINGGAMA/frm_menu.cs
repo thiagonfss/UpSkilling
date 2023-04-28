@@ -29,6 +29,12 @@ namespace WindowsFormsUPSKILLINGGAMA
             frm.Show();
         }
 
+        private void btn_hist_vendas_Click(object sender, EventArgs e)
+        {
+            frm_hist_vendas frm = new frm_hist_vendas();
+            frm.Show();
+        }
+
         private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frm_clientes frm = new frm_clientes();
@@ -40,5 +46,6 @@ namespace WindowsFormsUPSKILLINGGAMA
             frm_veiculos frm = new frm_veiculos();
             frm.Show();
         }
+                
     }
 }
