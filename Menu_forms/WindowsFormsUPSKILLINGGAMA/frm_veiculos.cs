@@ -26,5 +26,10 @@ namespace WindowsFormsUPSKILLINGGAMA
         {
 
         }
+
+        private void lbl_marca_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
