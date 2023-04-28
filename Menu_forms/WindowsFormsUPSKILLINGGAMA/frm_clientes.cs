@@ -32,7 +32,7 @@ namespace WindowsFormsUPSKILLINGGAMA
         {
             ClienteModel cliente = new ClienteModel();
 
-            cliente.Id = 0; //implementar
+            cliente.Id = 0; // _clienteService.GetNewId();
             cliente.Nome = this.txt_nome.Text;
             cliente.Telefone = this.txt_telefone.Text;
 

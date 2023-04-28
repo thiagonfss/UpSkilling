@@ -34,7 +34,7 @@
             this.btn_excluir = new System.Windows.Forms.Button();
             this.btn_cadastrar = new System.Windows.Forms.Button();
             this.lbl_modelo = new System.Windows.Forms.Label();
-            this.txt_marca = new System.Windows.Forms.TextBox();
+            this.txt_modelo = new System.Windows.Forms.TextBox();
             this.lbl_id_cliente = new System.Windows.Forms.Label();
             this.lbl_placa = new System.Windows.Forms.Label();
             this.txt_placa = new System.Windows.Forms.TextBox();
@@ -46,9 +46,10 @@
             // 
             // btn_cancelar
             // 
-            this.btn_cancelar.Location = new System.Drawing.Point(404, 10);
+            this.btn_cancelar.Location = new System.Drawing.Point(539, 12);
+            this.btn_cancelar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_cancelar.Name = "btn_cancelar";
-            this.btn_cancelar.Size = new System.Drawing.Size(75, 23);
+            this.btn_cancelar.Size = new System.Drawing.Size(100, 28);
             this.btn_cancelar.TabIndex = 17;
             this.btn_cancelar.Text = "Cancelar";
             this.btn_cancelar.UseVisualStyleBackColor = true;
@@ -56,95 +57,108 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(14, 97);
+            this.dataGridView1.Location = new System.Drawing.Point(19, 119);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(465, 194);
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.Size = new System.Drawing.Size(620, 239);
             this.dataGridView1.TabIndex = 16;
             // 
             // btn_sair
             // 
-            this.btn_sair.Location = new System.Drawing.Point(404, 68);
+            this.btn_sair.Location = new System.Drawing.Point(539, 84);
+            this.btn_sair.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_sair.Name = "btn_sair";
-            this.btn_sair.Size = new System.Drawing.Size(75, 23);
+            this.btn_sair.Size = new System.Drawing.Size(100, 28);
             this.btn_sair.TabIndex = 15;
             this.btn_sair.Text = "Sair";
             this.btn_sair.UseVisualStyleBackColor = true;
             // 
             // btn_excluir
             // 
-            this.btn_excluir.Location = new System.Drawing.Point(404, 39);
+            this.btn_excluir.Location = new System.Drawing.Point(539, 48);
+            this.btn_excluir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_excluir.Name = "btn_excluir";
-            this.btn_excluir.Size = new System.Drawing.Size(75, 23);
+            this.btn_excluir.Size = new System.Drawing.Size(100, 28);
             this.btn_excluir.TabIndex = 14;
             this.btn_excluir.Text = "Excluir";
             this.btn_excluir.UseVisualStyleBackColor = true;
             // 
             // btn_cadastrar
             // 
-            this.btn_cadastrar.Location = new System.Drawing.Point(279, 64);
+            this.btn_cadastrar.Location = new System.Drawing.Point(372, 79);
+            this.btn_cadastrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_cadastrar.Name = "btn_cadastrar";
-            this.btn_cadastrar.Size = new System.Drawing.Size(75, 23);
+            this.btn_cadastrar.Size = new System.Drawing.Size(100, 28);
             this.btn_cadastrar.TabIndex = 13;
             this.btn_cadastrar.Text = "Cadastrar";
             this.btn_cadastrar.UseVisualStyleBackColor = true;
+            this.btn_cadastrar.Click += new System.EventHandler(this.btn_cadastrar_Click);
             // 
             // lbl_modelo
             // 
             this.lbl_modelo.AutoSize = true;
-            this.lbl_modelo.Location = new System.Drawing.Point(30, 41);
+            this.lbl_modelo.Location = new System.Drawing.Point(40, 50);
+            this.lbl_modelo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_modelo.Name = "lbl_modelo";
-            this.lbl_modelo.Size = new System.Drawing.Size(42, 13);
+            this.lbl_modelo.Size = new System.Drawing.Size(53, 16);
             this.lbl_modelo.TabIndex = 12;
             this.lbl_modelo.Text = "Modelo";
             this.lbl_modelo.Click += new System.EventHandler(this.lbl_marca_Click);
             // 
-            // txt_marca
+            // txt_modelo
             // 
-            this.txt_marca.Location = new System.Drawing.Point(73, 38);
-            this.txt_marca.Name = "txt_marca";
-            this.txt_marca.Size = new System.Drawing.Size(145, 20);
-            this.txt_marca.TabIndex = 11;
+            this.txt_modelo.Location = new System.Drawing.Point(97, 47);
+            this.txt_modelo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_modelo.Name = "txt_modelo";
+            this.txt_modelo.Size = new System.Drawing.Size(192, 22);
+            this.txt_modelo.TabIndex = 11;
             // 
             // lbl_id_cliente
             // 
             this.lbl_id_cliente.AutoSize = true;
-            this.lbl_id_cliente.Location = new System.Drawing.Point(25, 15);
+            this.lbl_id_cliente.Location = new System.Drawing.Point(33, 18);
+            this.lbl_id_cliente.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_id_cliente.Name = "lbl_id_cliente";
-            this.lbl_id_cliente.Size = new System.Drawing.Size(68, 13);
+            this.lbl_id_cliente.Size = new System.Drawing.Size(83, 16);
             this.lbl_id_cliente.TabIndex = 9;
             this.lbl_id_cliente.Text = "ID do Cliente";
             // 
             // lbl_placa
             // 
             this.lbl_placa.AutoSize = true;
-            this.lbl_placa.Location = new System.Drawing.Point(33, 64);
+            this.lbl_placa.Location = new System.Drawing.Point(44, 79);
+            this.lbl_placa.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_placa.Name = "lbl_placa";
-            this.lbl_placa.Size = new System.Drawing.Size(34, 13);
+            this.lbl_placa.Size = new System.Drawing.Size(42, 16);
             this.lbl_placa.TabIndex = 18;
             this.lbl_placa.Text = "Placa";
             // 
             // txt_placa
             // 
-            this.txt_placa.Location = new System.Drawing.Point(73, 64);
+            this.txt_placa.Location = new System.Drawing.Point(97, 79);
+            this.txt_placa.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txt_placa.Name = "txt_placa";
-            this.txt_placa.Size = new System.Drawing.Size(145, 20);
+            this.txt_placa.Size = new System.Drawing.Size(192, 22);
             this.txt_placa.TabIndex = 19;
             // 
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(255, 37);
+            this.comboBox1.Location = new System.Drawing.Point(340, 46);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.Size = new System.Drawing.Size(160, 24);
             this.comboBox1.TabIndex = 20;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // lbl_tpo_servico
             // 
             this.lbl_tpo_servico.AutoSize = true;
-            this.lbl_tpo_servico.Location = new System.Drawing.Point(274, 15);
+            this.lbl_tpo_servico.Location = new System.Drawing.Point(365, 18);
+            this.lbl_tpo_servico.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_tpo_servico.Name = "lbl_tpo_servico";
-            this.lbl_tpo_servico.Size = new System.Drawing.Size(80, 13);
+            this.lbl_tpo_servico.Size = new System.Drawing.Size(101, 16);
             this.lbl_tpo_servico.TabIndex = 21;
             this.lbl_tpo_servico.Text = "Tipo de serviço";
             this.lbl_tpo_servico.Click += new System.EventHandler(this.label1_Click);
@@ -152,16 +166,17 @@
             // cb_id_cliente
             // 
             this.cb_id_cliente.FormattingEnabled = true;
-            this.cb_id_cliente.Location = new System.Drawing.Point(97, 11);
+            this.cb_id_cliente.Location = new System.Drawing.Point(129, 14);
+            this.cb_id_cliente.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cb_id_cliente.Name = "cb_id_cliente";
-            this.cb_id_cliente.Size = new System.Drawing.Size(121, 21);
+            this.cb_id_cliente.Size = new System.Drawing.Size(160, 24);
             this.cb_id_cliente.TabIndex = 22;
             // 
             // frm_veiculos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(492, 300);
+            this.ClientSize = new System.Drawing.Size(656, 369);
             this.Controls.Add(this.cb_id_cliente);
             this.Controls.Add(this.lbl_tpo_servico);
             this.Controls.Add(this.comboBox1);
@@ -173,8 +188,9 @@
             this.Controls.Add(this.btn_excluir);
             this.Controls.Add(this.btn_cadastrar);
             this.Controls.Add(this.lbl_modelo);
-            this.Controls.Add(this.txt_marca);
+            this.Controls.Add(this.txt_modelo);
             this.Controls.Add(this.lbl_id_cliente);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frm_veiculos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Veículos";
@@ -192,7 +208,7 @@
         private System.Windows.Forms.Button btn_excluir;
         private System.Windows.Forms.Button btn_cadastrar;
         private System.Windows.Forms.Label lbl_modelo;
-        private System.Windows.Forms.TextBox txt_marca;
+        private System.Windows.Forms.TextBox txt_modelo;
         private System.Windows.Forms.Label lbl_id_cliente;
         private System.Windows.Forms.Label lbl_placa;
         private System.Windows.Forms.TextBox txt_placa;
