@@ -30,6 +30,12 @@ namespace WindowsFormsUPSKILLINGGAMA
             frm.Show();
         }
 
+        private void btn_cad_ticket_Click(object sender, EventArgs e)
+        {
+            frm_ticket frm = new frm_ticket();
+            frm.Show();
+        }
+
         private void btn_hist_vendas_Click(object sender, EventArgs e)
         {
             frm_hist_vendas frm = new frm_hist_vendas();
@@ -47,6 +53,7 @@ namespace WindowsFormsUPSKILLINGGAMA
             frm_veiculos frm = new frm_veiculos();
             frm.Show();
         }
-                
+
+        
     }
 }

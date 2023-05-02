@@ -36,6 +36,7 @@
             this.btn_cdt_clientes = new System.Windows.Forms.Button();
             this.btn_cdt_veiculos = new System.Windows.Forms.Button();
             this.btn_hist_venda = new System.Windows.Forms.Button();
+            this.btn_cad_ticket = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pic_menu_estac)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -110,7 +111,7 @@
             // 
             this.btn_hist_venda.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.btn_hist_venda.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btn_hist_venda.Location = new System.Drawing.Point(194, 42);
+            this.btn_hist_venda.Location = new System.Drawing.Point(286, 42);
             this.btn_hist_venda.Name = "btn_hist_venda";
             this.btn_hist_venda.Size = new System.Drawing.Size(75, 55);
             this.btn_hist_venda.TabIndex = 4;
@@ -118,11 +119,24 @@
             this.btn_hist_venda.UseVisualStyleBackColor = false;
             this.btn_hist_venda.Click += new System.EventHandler(this.btn_hist_vendas_Click);
             // 
+            // btn_cad_ticket
+            // 
+            this.btn_cad_ticket.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.btn_cad_ticket.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btn_cad_ticket.Location = new System.Drawing.Point(195, 42);
+            this.btn_cad_ticket.Name = "btn_cad_ticket";
+            this.btn_cad_ticket.Size = new System.Drawing.Size(75, 55);
+            this.btn_cad_ticket.TabIndex = 5;
+            this.btn_cad_ticket.Text = "Cadastrat Ticket";
+            this.btn_cad_ticket.UseVisualStyleBackColor = false;
+            this.btn_cad_ticket.Click += new System.EventHandler(this.btn_cad_ticket_Click);
+            // 
             // frm_menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(492, 300);
+            this.Controls.Add(this.btn_cad_ticket);
             this.Controls.Add(this.btn_hist_venda);
             this.Controls.Add(this.btn_cdt_veiculos);
             this.Controls.Add(this.btn_cdt_clientes);
@@ -149,6 +163,7 @@
         private System.Windows.Forms.Button btn_cdt_clientes;
         private System.Windows.Forms.Button btn_cdt_veiculos;
         private System.Windows.Forms.Button btn_hist_venda;
+        private System.Windows.Forms.Button btn_cad_ticket;
     }
 }
 
