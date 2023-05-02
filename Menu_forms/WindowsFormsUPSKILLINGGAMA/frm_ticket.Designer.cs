@@ -87,7 +87,7 @@
             // lbl_tpo_servico
             // 
             this.lbl_tpo_servico.AutoSize = true;
-            this.lbl_tpo_servico.Location = new System.Drawing.Point(66, 184);
+            this.lbl_tpo_servico.Location = new System.Drawing.Point(47, 169);
             this.lbl_tpo_servico.Name = "lbl_tpo_servico";
             this.lbl_tpo_servico.Size = new System.Drawing.Size(82, 13);
             this.lbl_tpo_servico.TabIndex = 5;

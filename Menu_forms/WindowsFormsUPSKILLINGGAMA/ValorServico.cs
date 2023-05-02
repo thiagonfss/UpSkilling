@@ -2,9 +2,9 @@
 {
      public class ValorServico
     {
-        public readonly int Mensalista = 90;
-        public readonly int Diaria = 25;
-        public readonly double Hora = 7.5;
+        public double Mensalista = 90;
+        public double Diaria = 25;
+        public double Hora = 7.5;
     }
 
 }
